@@ -3,6 +3,7 @@ name = "taskhub-api"
 version = "0.1.0"
 edition = "2021"
 authors = ["JinJU"]
+repository = "https://github.com/JackYun/taskhub-api"
 description = "Production-style REST API for task and notes management built with axum, SQLx (SQLite), JWT auth and OpenAPI docs"
 license = "MIT"
 readme = "README.md"

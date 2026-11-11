@@ -88,7 +88,7 @@ docker run --rm -p 3000:3000 \
 
 镜像为多阶段构建（`rust:1-slim-bookworm` 编译 → `debian:bookworm-slim` 运行），以非 root 用户 `taskhub` 运行，数据库默认在卷目录 `/app/data/taskhub.db`。
 
-> **注意：** 这个 Dockerfile 还没有实际构建和验证过（编写时环境里没有 Docker）。
+> **已验证（2026-11-11）：** 在 WSL（Debian）中使用 Docker Engine 29.9.3 成功构建镜像（`taskhub-api:local`，约 148 MB），容器以非 root 用户 `taskhub`（uid 10001）运行，SQLite 数据库存放在挂载到 `/app/data` 的卷中。实际用 curl 验证通过：`GET /health`（200）、注册（201）、登录（200）、`GET /auth/me`（200）、创建任务（201）、按标签筛选列表（200）、获取任务（200）、`PATCH`（200）、`DELETE`（204）、删除后再获取（404）、`/swagger-ui/`（200）。
 
 ### 配置
 
@@ -225,7 +225,7 @@ docker run --rm -p 3000:3000 \
 
 The image is a multi-stage build: it compiles in `rust:1-slim-bookworm` and runs in `debian:bookworm-slim`. The server runs as the non-root user `taskhub`, and the database defaults to `/app/data/taskhub.db` on a volume.
 
-> **Note:** this Dockerfile has not been built or tested yet, because Docker was not available when it was written.
+> **Verified (2026-11-11):** the image was built with Docker Engine 29.9.3 in WSL (Debian) (`taskhub-api:local`, about 148 MB). The container runs as the non-root user `taskhub` (uid 10001) and keeps the SQLite database in a volume mounted at `/app/data`. These real curl calls passed: `GET /health` (200), register (201), login (200), `GET /auth/me` (200), create task (201), list filtered by tag (200), get task (200), `PATCH` (200), `DELETE` (204), get after delete (404), and `/swagger-ui/` (200).
 
 ### Configuration
 
