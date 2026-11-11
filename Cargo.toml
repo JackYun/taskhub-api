@@ -1,0 +1,42 @@
+[package]
+name = "taskhub-api"
+version = "0.1.0"
+edition = "2021"
+authors = ["JinJU"]
+description = "Production-style REST API for task and notes management built with axum, SQLx (SQLite), JWT auth and OpenAPI docs"
+license = "MIT"
+readme = "README.md"
+keywords = ["axum", "rest-api", "sqlx", "jwt", "openapi"]
+categories = ["web-programming::http-server"]
+publish = false
+
+[dependencies]
+anyhow = "1.0.104"
+argon2 = "0.6.0"
+axum = { version = "0.8.9", features = ["macros"] }
+chrono = { version = "0.4.45", features = ["serde"] }
+dotenvy = "0.15.7"
+jsonwebtoken = { version = "11.1.0", features = ["rust_crypto"] }
+serde = { version = "1.0.229", features = ["derive"] }
+serde_json = "1.0.154"
+sqlx = { version = "0.9.0", default-features = false, features = ["runtime-tokio", "sqlite", "migrate", "macros", "chrono"] }
+thiserror = "2.0.21"
+tokio = { version = "1.54.1", features = ["full"] }
+tower = { version = "0.5.3", features = ["util"] }
+tower-http = { version = "0.6.8", features = ["trace", "cors", "request-id", "util"] }
+tracing = "0.1.44"
+tracing-subscriber = { version = "0.3.23", features = ["env-filter"] }
+utoipa = { version = "6.0.0", features = ["axum_extras", "chrono"] }
+utoipa-swagger-ui = { version = "10.0.2", features = ["axum", "vendored"] }
+validator = { version = "0.21.0", features = ["derive"] }
+
+[dev-dependencies]
+http-body-util = "0.1.5"
+
+# Argon2 is intentionally expensive; optimise it even in debug/test builds so
+# the integration test suite stays fast.
+[profile.dev.package.argon2]
+opt-level = 3
+
+[profile.dev.package.blake2]
+opt-level = 3
